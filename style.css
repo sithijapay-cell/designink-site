@@ -1,86 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
 :root {
-    --bg-color: #f4f1ea;
-    --text-black: #1a1a1a;
-    --accent-red: #e63946;
+    --primary: #e63946;
+    --bg: #0f0f0f;
+    --card: #1a1a1a;
+    --text: #ffffff;
+    --border: #333333;
 }
 
-body { 
-    margin: 0; 
-    font-family: 'Inter', -apple-system, sans-serif; 
-    background-color: var(--bg-color); 
-    color: var(--text-black); 
-    line-height: 1.6; 
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Logo Branding: DESIGN I NK */
-.logo { 
-    font-weight: 900; 
-    font-size: 26px; 
-    letter-spacing: -1px; 
-    text-decoration: none; 
-    color: black; 
-}
-.logo span { color: var(--accent-red); }
-
-/* Navigation */
-nav { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 20px 10%; 
-    background: var(--bg-color);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-.menu a { 
-    margin-left: 20px; 
-    text-decoration: none; 
-    color: var(--text-black); 
-    font-size: 13px; 
-    text-transform: uppercase; 
-    font-weight: 700; 
+/* Sidebar Navigation */
+nav {
+    width: 260px;
+    background: #000;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
 }
 
-.container { padding: 80px 10%; max-width: 1100px; margin: auto; text-align: center; }
+.logo { font-weight: 800; font-size: 22px; letter-spacing: -1px; margin-bottom: 50px; text-decoration: none; color: #fff; }
+.logo span { color: var(--primary); }
 
-/* Buttons */
-.btn-black { 
-    background: black; 
-    color: white; 
-    padding: 18px 35px; 
-    text-decoration: none; 
-    display: inline-block; 
-    font-weight: bold; 
-    border: none; 
-    cursor: pointer;
+.nav-links a {
+    color: #888;
+    text-decoration: none;
+    display: block;
+    padding: 12px 0;
     font-size: 14px;
-    letter-spacing: 1px;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
-/* Grid & Cards */
-.grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    gap: 30px; 
-    margin-top: 50px; 
-}
-.card { 
-    background: #eae7df; 
-    padding: 40px; 
-    border: 1px solid #ddd; 
-    text-align: center;
-}
-.red-dash { 
-    width: 20px; 
-    height: 4px; 
-    background: var(--accent-red); 
-    margin: 0 auto 20px; 
+.nav-links a.active, .nav-links a:hover { color: #fff; }
+
+/* Main Workspace */
+main {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
 }
 
-footer { 
-    text-align: center; 
-    padding: 60px; 
-    border-top: 1px solid #ddd; 
-    margin-top: 50px; 
-    font-size: 12px; 
-    color: #888; 
+.app-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Inputs & UI */
+.input-field {
+    background: #252525;
+    border: 1px solid var(--border);
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.2s;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* Progress Bar */
+.progress-wrapper { margin-top: 30px; display: none; }
+.progress-outer { background: #333; height: 8px; border-radius: 10px; overflow: hidden; }
+.progress-inner { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+.status-text { font-size: 12px; margin-top: 10px; color: #aaa; }
+
+/* Terminal Log */
+#terminal {
+    background: #000;
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 11px;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 20px;
+    height: 120px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
 }
