@@ -12,6 +12,7 @@ body {
     display: flex; height: 100vh; overflow: hidden;
 }
 
+/* Sidebar Styling */
 .sidebar {
     width: 320px; background: var(--side); border-right: 1px solid var(--border);
     padding: 40px 30px; display: flex; flex-direction: column; gap: 35px;
@@ -20,10 +21,10 @@ body {
 .brand { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; }
 .brand span { color: var(--accent); }
 
-.config-card label { display: block; font-size: 11px; font-weight: 800; color: #52525b; margin-bottom: 10px; text-transform: uppercase; }
+.config-section label { display: block; font-size: 11px; font-weight: 800; color: #52525b; margin-bottom: 10px; text-transform: uppercase; }
 input, select { 
     width: 100%; background: #000; border: 1px solid var(--border); 
-    padding: 14px; color: #fff; border-radius: 8px; outline: none;
+    padding: 14px; color: #fff; border-radius: 8px; outline: none; font-size: 13px;
 }
 
 .btn-primary, .btn-success {
@@ -32,14 +33,14 @@ input, select {
 .btn-primary { background: var(--accent); color: #fff; margin-bottom: 10px; }
 .btn-success { background: #10b981; color: #fff; }
 
-.main-content { flex: 1; display: flex; flex-direction: column; }
-.header { padding: 30px 50px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.header h1 { margin: 0; font-size: 24px; font-weight: 900; }
+/* Workspace Area */
+.main-view { flex: 1; display: flex; flex-direction: column; }
+.top-bar { padding: 30px 50px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
 .custom-upload { background: #27272a; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; }
 #fileInput { display: none; }
 
-.image-workspace {
+.image-grid {
     flex: 1; padding: 40px; display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 25px; overflow-y: auto; background: #0c0c0e;
@@ -51,14 +52,15 @@ input, select {
 .fname { font-size: 11px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .badge { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; background: #27272a; text-align: center; }
-.badge.processing { background: #fbbf24; color: #000; }
+.badge.active { background: #fbbf24; color: #000; }
 .badge.success { background: #10b981; color: #fff; }
 .badge.error { background: #ef4444; color: #fff; }
 
-.progress-area { padding: 20px 50px; background: #111; border-top: 1px solid var(--border); }
+/* Progress Indicator */
+.progress-container { padding: 20px 50px; background: #111; border-top: 1px solid var(--border); }
 .progress-info { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; font-weight: 700; }
 .progress-track { height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.3s; }
 
 .empty-state { grid-column: 1 / -1; text-align: center; padding-top: 150px; color: #3f3f46; }
-.empty-state i { font-size: 60px; margin-bottom: 25px; opacity: 0.05; }
+.empty-state i { font-size: 60px; margin-bottom: 20px; opacity: 0.05; }
