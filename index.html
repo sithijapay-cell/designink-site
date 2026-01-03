@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIGNINK | AI Metadata Dashboard</title>
+    <title>DESIGNINK | AI Metadata Workspace</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,14 +12,14 @@
     <aside class="sidebar">
         <div class="brand">DESIGN<span>I</span>NK.</div>
         
-        <div class="config-group">
+        <div class="config-section">
             <label><i class="fa-solid fa-key"></i> GROQ API KEY</label>
             <input type="password" id="apiKey" placeholder="gsk_xxxx...">
-            <p class="helper-text">Key is saved only in your browser storage.</p>
+            <p class="helper">Saved locally in your browser storage.</p>
         </div>
 
-        <div class="config-group">
-            <label><i class="fa-solid fa-list-ul"></i> CATEGORY</label>
+        <div class="config-section">
+            <label><i class="fa-solid fa-list-ul"></i> ADOBE CATEGORY</label>
             <select id="category">
                 <option value="3">Abstract (3)</option>
                 <option value="12">Architecture (12)</option>
@@ -29,8 +29,8 @@
             </select>
         </div>
 
-        <div class="nav-buttons">
-            <button class="btn-primary" onclick="runBatch()" id="startBtn">
+        <div class="nav-actions">
+            <button class="btn-primary" onclick="processBatch()" id="startBtn">
                 <i class="fa-solid fa-wand-sparkles"></i> START ANALYSIS
             </button>
             <button id="dlBtn" class="btn-success" onclick="downloadCSV()" style="display:none;">
@@ -39,28 +39,28 @@
         </div>
 
         <div class="status-panel">
-            <div class="status-item">Uploaded: <span id="countFiles">0</span></div>
-            <div class="status-item">Processed: <span id="countDone">0</span></div>
+            <div class="stat-item">Uploaded: <span id="countFiles">0</span></div>
+            <div class="stat-item">Processed: <span id="countDone">0</span></div>
         </div>
     </aside>
 
     <main class="workspace">
         <header class="workspace-header">
-            <div>
-                <h1>Microstock Metadata Workspace</h1>
-                <p>Upload up to 500 images for instant AI metadata generation.</p>
+            <div class="header-text">
+                <h1>AI Batch Workspace</h1>
+                <p>Generate Adobe Stock metadata for up to 500 images using Groq Vision AI.</p>
             </div>
             <div class="upload-wrapper">
                 <label for="fileInput" class="upload-label">
                     <i class="fa-solid fa-plus"></i> SELECT IMAGES
                 </label>
-                <input type="file" id="fileInput" multiple accept="image/*" onchange="loadImages()">
+                <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles()">
             </div>
         </header>
 
         <div class="progress-bar-container" id="progArea" style="display:none;">
             <div class="progress-labels">
-                <span id="progStatus">Idle</span>
+                <span id="progStatus">AI is thinking...</span>
                 <span id="progPercent">0%</span>
             </div>
             <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
@@ -69,35 +69,36 @@
         <div class="image-grid" id="grid">
             <div class="empty-state">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>No images uploaded. Add files to start generating metadata.</p>
+                <p>No images loaded. Select files to begin your workspace.</p>
             </div>
         </div>
     </main>
 
     <script>
         let batchData = [];
-        let filesList = [];
+        let uploadedFiles = [];
 
+        // Load Key from Browser Storage (Like your extension panel.js)
         window.onload = () => {
             const saved = localStorage.getItem('designink_groq_key');
             if(saved) document.getElementById('apiKey').value = saved;
         };
 
-        function loadImages() {
+        function handleFiles() {
             const grid = document.getElementById('grid');
-            filesList = Array.from(document.getElementById('fileInput').files);
+            uploadedFiles = Array.from(document.getElementById('fileInput').files);
             grid.innerHTML = '';
-            document.getElementById('countFiles').innerText = filesList.length;
+            document.getElementById('countFiles').innerText = uploadedFiles.length;
 
-            filesList.forEach((file, index) => {
+            uploadedFiles.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const card = document.createElement('div');
                     card.className = 'image-card';
                     card.innerHTML = `
                         <img src="${e.target.result}">
-                        <div class="image-footer">
-                            <span class="filename">${file.name}</span>
+                        <div class="card-footer">
+                            <span class="fname">${file.name}</span>
                             <span class="status-tag" id="tag-${index}">Ready</span>
                         </div>
                     `;
@@ -107,23 +108,26 @@
             });
         }
 
-        async function runBatch() {
+        async function processBatch() {
             const key = document.getElementById('apiKey').value;
-            if(!key || filesList.length === 0) return alert("API Key and Images required.");
+            if(!key || uploadedFiles.length === 0) return alert("Please enter API key and upload images.");
             localStorage.setItem('designink_groq_key', key);
             
             document.getElementById('progArea').style.display = 'block';
+            document.getElementById('startBtn').disabled = true;
             batchData = [];
-            let completed = 0;
+            let doneCount = 0;
 
-            for(let i=0; i<filesList.length; i++) {
-                const file = filesList[i];
+            for(let i=0; i<uploadedFiles.length; i++) {
+                const file = uploadedFiles[i];
                 const tag = document.getElementById(`tag-${i}`);
                 tag.innerText = "Analyzing...";
-                tag.style.background = "#fbbf24";
+                tag.style.background = "#f39c12";
 
                 try {
                     const base64 = await toBase64(file);
+                    
+                    // Logic from your panel.js adapted for Image Analysis
                     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                         method: 'POST',
                         headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
@@ -132,7 +136,7 @@
                             messages: [{
                                 role: "user",
                                 content: [
-                                    { type: "text", text: "Adobe Stock Metadata. Title max 70 chars. Keywords 45 words comma separated. Return only: Title: [text] | Keywords: [text]" },
+                                    { type: "text", text: "Adobe Stock Metadata. Return ONLY in this exact format: Title: [max 70 chars] | Keywords: [40-50 words, comma separated]" },
                                     { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } }
                                 ]
                             }]
@@ -151,19 +155,22 @@
 
                     tag.innerText = "Success";
                     tag.style.background = "#10b981";
-                    completed++;
+                    doneCount++;
                     
-                    const p = Math.round((completed / filesList.length) * 100);
+                    // UI Progress Updates
+                    const p = Math.round((doneCount / uploadedFiles.length) * 100);
                     document.getElementById('fill').style.width = p + "%";
                     document.getElementById('progPercent').innerText = p + "%";
-                    document.getElementById('countDone').innerText = completed;
+                    document.getElementById('countDone').innerText = doneCount;
 
                 } catch (err) {
                     tag.innerText = "Error";
-                    tag.style.background = "#ef4444";
+                    tag.style.background = "#e63946";
+                    console.error("Error at " + file.name, err);
                 }
             }
             document.getElementById('dlBtn').style.display = 'block';
+            document.getElementById('startBtn').disabled = false;
         }
 
         const toBase64 = f => new Promise(res => {
@@ -173,6 +180,7 @@
 
         function downloadCSV() {
             const cat = document.getElementById('category').value;
+            // Headers mapped to your Sample CSV
             let csv = "Filename,Title,Keywords,Category,Releases\n";
             batchData.forEach(r => {
                 csv += `"${r.filename}","${r.title.replace(/"/g,'""')}","${r.keywords.replace(/"/g,'""')}",${cat},""\n`;
@@ -180,7 +188,7 @@
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = `AdobeStock_Upload.csv`; a.click();
+            a.href = url; a.download = `AdobeStock_Upload_${Date.now()}.csv`; a.click();
         }
     </script>
 </body>
