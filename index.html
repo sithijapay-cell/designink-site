@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIGNINK | Auto-Category AI Workspace</title>
+    <title>DESIGNINK | AI Metadata Workspace</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -15,12 +15,12 @@
         <div class="config-section">
             <label><i class="fa-solid fa-key"></i> GROQ API KEY</label>
             <input type="password" id="apiKey" placeholder="gsk_xxxx...">
-            <p class="helper">API Key is saved locally in your browser.</p>
+            <p class="helper">Saved locally in your browser storage.</p>
         </div>
 
         <div class="nav-actions">
             <button class="btn-primary" onclick="processBatch()" id="startBtn">
-                <i class="fa-solid fa-wand-sparkles"></i> START AUTO-PROCESS
+                <i class="fa-solid fa-wand-sparkles"></i> START ANALYSIS
             </button>
             <button id="dlBtn" class="btn-success" onclick="downloadCSV()" style="display:none;">
                 <i class="fa-solid fa-file-csv"></i> DOWNLOAD CSV
@@ -28,16 +28,16 @@
         </div>
 
         <div class="status-panel">
-            <div class="stat-item">Files: <span id="countFiles">0</span></div>
-            <div class="stat-item">Done: <span id="countDone">0</span></div>
+            <div class="stat-item">Uploaded: <span id="countFiles">0</span></div>
+            <div class="stat-item">Processed: <span id="countDone">0</span></div>
         </div>
     </aside>
 
     <main class="workspace">
         <header class="workspace-header">
             <div class="header-text">
-                <h1>AI Smart Workspace</h1>
-                <p>Images are automatically categorized, titled, and keyworded by AI.</p>
+                <h1>AI Batch Workspace</h1>
+                <p>Auto-generate 50 keywords, 70-char titles, and Category IDs for Adobe Stock.</p>
             </div>
             <div class="upload-wrapper">
                 <label for="fileInput" class="upload-label">
@@ -49,7 +49,7 @@
 
         <div class="progress-bar-container" id="progArea" style="display:none;">
             <div class="progress-labels">
-                <span id="progStatus">AI analyzing & categorizing...</span>
+                <span id="progStatus">AI is analyzing assets...</span>
                 <span id="progPercent">0%</span>
             </div>
             <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
@@ -58,7 +58,7 @@
         <div class="image-grid" id="grid">
             <div class="empty-state">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>No images loaded. AI will handle everything once you upload.</p>
+                <p>Workspace empty. Select up to 500 images to begin.</p>
             </div>
         </div>
     </main>
@@ -98,7 +98,7 @@
 
         async function processBatch() {
             const key = document.getElementById('apiKey').value;
-            if(!key || uploadedFiles.length === 0) return alert("API key or Images missing.");
+            if(!key || uploadedFiles.length === 0) return alert("Please enter API key and upload images.");
             localStorage.setItem('designink_groq_key', key);
             
             document.getElementById('progArea').style.display = 'block';
@@ -109,7 +109,7 @@
             for(let i=0; i<uploadedFiles.length; i++) {
                 const file = uploadedFiles[i];
                 const tag = document.getElementById(`tag-${i}`);
-                tag.innerText = "Analyzing...";
+                tag.innerText = "Processing...";
                 tag.style.background = "#f39c12";
 
                 try {
@@ -122,7 +122,7 @@
                             messages: [{
                                 role: "user",
                                 content: [
-                                    { type: "text", text: "Analyze this for Adobe Stock. 1. Pick the best Adobe Category ID (1:Animals, 3:Abstract, 11:Interiors, 12:Architecture, 13:Business, 17:Nature, 18:Lifestyle). 2. Provide Title (70 chars). 3. Provide 45 keywords. Return ONLY: Category: [ID] | Title: [text] | Keywords: [comma separated]" },
+                                    { type: "text", text: "Adobe Stock Metadata Expert. Return ONLY this format: Category: [ID] | Title: [max 70 chars] | Keywords: [50 keywords comma separated]. IDs: 3:Abstract, 12:Architecture, 17:Nature, 11:Interiors, 13:Business, 1:Animals, 18:Lifestyle." },
                                     { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } }
                                 ]
                             }]
@@ -152,6 +152,7 @@
                 } catch (err) {
                     tag.innerText = "Error";
                     tag.style.background = "#e63946";
+                    console.error("Critical Error:", err);
                 }
             }
             document.getElementById('dlBtn').style.display = 'block';
@@ -171,7 +172,7 @@
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = `DesignInk_AdobeStock_Auto.csv`; a.click();
+            a.href = url; a.download = `DesignInk_Batch_Upload.csv`; a.click();
         }
     </script>
 </body>
