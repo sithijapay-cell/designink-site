@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIGNINK | AI Metadata Workspace</title>
+    <title>DESIGNINK | AI Metadata Pro</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="nav-actions">
-            <button class="btn-primary" onclick="processBatch()" id="startBtn">
+            <button class="btn-primary" onclick="startProcess()" id="startBtn">
                 <i class="fa-solid fa-wand-sparkles"></i> START ANALYSIS
             </button>
             <button id="dlBtn" class="btn-success" onclick="downloadCSV()" style="display:none;">
@@ -27,67 +27,67 @@
             </button>
         </div>
 
-        <div class="status-panel">
-            <div class="stat-item">Uploaded: <span id="countFiles">0</span></div>
-            <div class="stat-item">Processed: <span id="countDone">0</span></div>
+        <div class="status-box">
+            <div class="stat">Files: <span id="countFiles">0</span></div>
+            <div class="stat">Done: <span id="countDone">0</span></div>
         </div>
     </aside>
 
-    <main class="workspace">
-        <header class="workspace-header">
-            <div class="header-text">
-                <h1>AI Batch Workspace</h1>
-                <p>Auto-generate 50 keywords, 70-char titles, and Category IDs for Adobe Stock.</p>
+    <main class="main-content">
+        <header class="header">
+            <div class="header-info">
+                <h1>Batch Workspace</h1>
+                <p>Upload up to 500 images. AI will generate Adobe Stock ready data.</p>
             </div>
-            <div class="upload-wrapper">
-                <label for="fileInput" class="upload-label">
+            <div class="upload-zone">
+                <label for="fileInput" class="custom-upload">
                     <i class="fa-solid fa-plus"></i> SELECT IMAGES
                 </label>
                 <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFiles()">
             </div>
         </header>
 
-        <div class="progress-bar-container" id="progArea" style="display:none;">
-            <div class="progress-labels">
-                <span id="progStatus">AI is analyzing assets...</span>
-                <span id="progPercent">0%</span>
+        <div class="progress-bar-container" id="progWrapper" style="display:none;">
+            <div class="progress-info">
+                <span id="statusLabel">AI Analyzing...</span>
+                <span id="percentLabel">0%</span>
             </div>
             <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
         </div>
 
         <div class="image-grid" id="grid">
             <div class="empty-state">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>Workspace empty. Select up to 500 images to begin.</p>
+                <i class="fa-solid fa-images"></i>
+                <p>No images loaded. Select files to begin.</p>
             </div>
         </div>
     </main>
 
     <script>
-        let batchData = [];
-        let uploadedFiles = [];
+        let batchResults = [];
+        let filesQueue = [];
 
         window.onload = () => {
-            const saved = localStorage.getItem('designink_groq_key');
+            const saved = localStorage.getItem('di_groq_key');
             if(saved) document.getElementById('apiKey').value = saved;
         };
 
         function handleFiles() {
             const grid = document.getElementById('grid');
-            uploadedFiles = Array.from(document.getElementById('fileInput').files);
+            filesQueue = Array.from(document.getElementById('fileInput').files);
             grid.innerHTML = '';
-            document.getElementById('countFiles').innerText = uploadedFiles.length;
+            document.getElementById('countFiles').innerText = filesQueue.length;
 
-            uploadedFiles.forEach((file, index) => {
+            filesQueue.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const card = document.createElement('div');
-                    card.className = 'image-card';
+                    card.className = 'img-card';
                     card.innerHTML = `
                         <img src="${e.target.result}">
-                        <div class="card-footer">
+                        <div class="img-meta">
                             <span class="fname">${file.name}</span>
-                            <span class="status-tag" id="tag-${index}">Ready</span>
+                            <span class="badge" id="tag-${index}">Pending</span>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -96,33 +96,38 @@
             });
         }
 
-        async function processBatch() {
+        async function startProcess() {
             const key = document.getElementById('apiKey').value;
-            if(!key || uploadedFiles.length === 0) return alert("Please enter API key and upload images.");
-            localStorage.setItem('designink_groq_key', key);
+            if(!key || filesQueue.length === 0) return alert("Missing Key or Files");
+            localStorage.setItem('di_groq_key', key);
             
-            document.getElementById('progArea').style.display = 'block';
+            document.getElementById('progWrapper').style.display = 'block';
             document.getElementById('startBtn').disabled = true;
-            batchData = [];
+            batchResults = [];
             let doneCount = 0;
 
-            for(let i=0; i<uploadedFiles.length; i++) {
-                const file = uploadedFiles[i];
+            for(let i=0; i<filesQueue.length; i++) {
+                const file = filesQueue[i];
                 const tag = document.getElementById(`tag-${i}`);
-                tag.innerText = "Processing...";
-                tag.style.background = "#f39c12";
+                tag.innerText = "Analyzing...";
+                tag.className = "badge active";
 
                 try {
                     const base64 = await toBase64(file);
+                    
+                    // The Fetch Call
                     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                         method: 'POST',
-                        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Authorization': `Bearer ${key}`,
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({
                             model: "llama-3.2-11b-vision-preview",
                             messages: [{
                                 role: "user",
                                 content: [
-                                    { type: "text", text: "Adobe Stock Metadata Expert. Return ONLY this format: Category: [ID] | Title: [max 70 chars] | Keywords: [50 keywords comma separated]. IDs: 3:Abstract, 12:Architecture, 17:Nature, 11:Interiors, 13:Business, 1:Animals, 18:Lifestyle." },
+                                    { type: "text", text: "Adobe Stock Metadata. Determine Category ID (1-21), Title (70 chars), and 45 keywords. Return ONLY: Category: [ID] | Title: [text] | Keywords: [text]" },
                                     { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } }
                                 ]
                             }]
@@ -130,10 +135,12 @@
                     });
 
                     const res = await response.json();
-                    const aiContent = res.choices[0].message.content;
-                    const parts = aiContent.split('|');
+                    if(res.error) throw new Error(res.error.message);
+
+                    const aiText = res.choices[0].message.content;
+                    const parts = aiText.split('|');
                     
-                    batchData.push({
+                    batchResults.push({
                         filename: file.name,
                         category: parts[0].replace(/Category:/i, '').trim(),
                         title: parts[1].replace(/Title:/i, '').trim(),
@@ -141,18 +148,18 @@
                     });
 
                     tag.innerText = "Success";
-                    tag.style.background = "#10b981";
+                    tag.className = "badge success";
                     doneCount++;
                     
-                    const p = Math.round((doneCount / uploadedFiles.length) * 100);
+                    const p = Math.round((doneCount / filesQueue.length) * 100);
                     document.getElementById('fill').style.width = p + "%";
-                    document.getElementById('progPercent').innerText = p + "%";
+                    document.getElementById('percentLabel').innerText = p + "%";
                     document.getElementById('countDone').innerText = doneCount;
 
                 } catch (err) {
                     tag.innerText = "Error";
-                    tag.style.background = "#e63946";
-                    console.error("Critical Error:", err);
+                    tag.className = "badge error";
+                    console.error(err);
                 }
             }
             document.getElementById('dlBtn').style.display = 'block';
@@ -166,13 +173,13 @@
 
         function downloadCSV() {
             let csv = "Filename,Title,Keywords,Category,Releases\n";
-            batchData.forEach(r => {
+            batchResults.forEach(r => {
                 csv += `"${r.filename}","${r.title.replace(/"/g,'""')}","${r.keywords.replace(/"/g,'""')}",${r.category},""\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url; a.download = `DesignInk_Batch_Upload.csv`; a.click();
+            a.href = url; a.download = `AdobeStock_Batch.csv`; a.click();
         }
     </script>
 </body>
