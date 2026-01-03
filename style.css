@@ -1,0 +1,104 @@
+:root {
+    --bg-color: #f4f1ea; /* The cream background from your image */
+    --text-black: #1a1a1a;
+    --accent-red: #e63946;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-black);
+    text-align: center;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background: var(--bg-color);
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: -1px;
+}
+
+.logo span { color: var(--accent-red); }
+
+.menu a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: var(--text-black);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e5e5e5; /* Light grey block from image */
+    margin: 0 5%;
+}
+
+.hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.btn-black {
+    display: inline-block;
+    background: black;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Cards Section */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px 10%;
+}
+
+.card {
+    background: #eae7df;
+    padding: 30px;
+    flex: 1;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.red-dash {
+    width: 10px;
+    height: 4px;
+    background: var(--accent-red);
+    margin: 0 auto 15px;
+}
+
+.btn-small {
+    background: black;
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+footer {
+    padding: 40px;
+    border-top: 1px solid #333;
+    margin: 0 10%;
+    font-size: 12px;
+}
