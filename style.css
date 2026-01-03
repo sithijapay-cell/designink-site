@@ -1,6 +1,6 @@
 :root {
-    --bg: #0c0c0e;
-    --side: #141417;
+    --bg: #09090b;
+    --side: #121214;
     --accent: #e63946;
     --text: #ffffff;
     --border: #27272a;
@@ -20,28 +20,42 @@ body {
 .brand { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; }
 .brand span { color: var(--accent); }
 
-.config-section label { display: block; font-size: 11px; font-weight: 800; color: #71717a; margin-bottom: 10px; text-transform: uppercase; }
-input { width: 100%; background: #000; border: 1px solid var(--border); padding: 14px; color: #fff; border-radius: 8px; outline: none; }
+.config-section label { display: block; font-size: 11px; font-weight: 800; color: #52525b; margin-bottom: 10px; text-transform: uppercase; }
+input { 
+    width: 100%; background: #000; border: 1px solid var(--border); 
+    padding: 14px; color: #fff; border-radius: 8px; outline: none;
+}
 
-.btn-primary, .btn-success { width: 100%; padding: 18px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.btn-primary { background: var(--accent); color: white; margin-bottom: 12px; }
-.btn-success { background: #10b981; color: white; }
+.btn-primary, .btn-success {
+    width: 100%; padding: 18px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; margin-bottom: 10px; }
+.btn-success { background: #10b981; color: #fff; }
 
-.workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.workspace-header { padding: 30px 50px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.workspace-header h1 { margin: 0; font-size: 24px; font-weight: 900; }
+.main-content { flex: 1; display: flex; flex-direction: column; }
+.header { padding: 30px 50px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.header h1 { margin: 0; font-size: 24px; font-weight: 900; }
 
-.upload-label { background: #27272a; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; border: 1px solid var(--border); }
+.custom-upload { background: #27272a; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px; }
 #fileInput { display: none; }
 
-.image-grid { flex: 1; padding: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; overflow-y: auto; background: #080809; }
-.image-card { background: #1a1a1c; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); position: relative; }
-.image-card img { width: 100%; height: 160px; object-fit: cover; }
-.card-footer { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-.fname { font-size: 11px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status-tag { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 30px; background: #27272a; text-align: center; }
+.image-grid {
+    flex: 1; padding: 40px; display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 25px; overflow-y: auto; background: #0c0c0e;
+}
 
-.progress-bar-container { padding: 25px 50px; background: #121214; border-top: 1px solid var(--border); }
-.progress-labels { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; font-weight: 800; }
-.progress-track { height: 8px; background: #222; border-radius: 20px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
+.img-card { background: #18181b; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+.img-card img { width: 100%; height: 160px; object-fit: cover; }
+.img-meta { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.fname { font-size: 11px; color: #71717a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.badge { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; background: #27272a; text-align: center; }
+.badge.active { background: #fbbf24; color: #000; }
+.badge.success { background: #10b981; color: #fff; }
+.badge.error { background: #ef4444; color: #fff; }
+
+.progress-bar-container { padding: 20px 50px; background: #111; border-top: 1px solid var(--border); }
+.progress-info { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; font-weight: 700; }
+.progress-track { height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.3s; }
