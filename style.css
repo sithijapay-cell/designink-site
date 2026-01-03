@@ -1,6 +1,6 @@
 :root {
     --bg-main: #0c0c0e;
-    --sidebar: #151518;
+    --sidebar: #141417;
     --accent: #e63946;
     --text-primary: #ffffff;
     --text-dim: #71717a;
@@ -8,12 +8,12 @@
 }
 
 body {
-    margin: 0; font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0; font-family: 'Inter', sans-serif;
     background: var(--bg-main); color: var(--text-primary);
     display: flex; height: 100vh; overflow: hidden;
 }
 
-/* Dashboard Sidebar */
+/* Sidebar Dashboard */
 .sidebar {
     width: 320px; background: var(--sidebar); border-right: 1px solid var(--border);
     padding: 40px 30px; display: flex; flex-direction: column; gap: 35px;
@@ -22,7 +22,7 @@ body {
 .brand { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; }
 .brand span { color: var(--accent); }
 
-.config-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; }
+.config-section label { display: block; font-size: 11px; font-weight: 800; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; }
 input, select { 
     width: 100%; background: #000; border: 1px solid var(--border); 
     padding: 14px; color: #fff; border-radius: 8px; font-size: 13px;
@@ -51,15 +51,15 @@ input, select {
 
 .image-card { background: #1a1a1c; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); position: relative; }
 .image-card img { width: 100%; height: 160px; object-fit: cover; }
-.image-footer { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-.filename { font-size: 11px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-footer { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.fname { font-size: 11px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .status-tag { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 30px; background: #27272a; text-align: center; }
 
-/* Progress Bar Styling */
+/* Progress Bar at Bottom */
 .progress-bar-container { padding: 25px 50px; background: #121214; border-top: 1px solid var(--border); }
 .progress-labels { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 10px; font-weight: 800; }
 .progress-track { height: 8px; background: #27272a; border-radius: 20px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s ease-in-out; }
+.progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
 
 .empty-state { grid-column: 1 / -1; text-align: center; padding-top: 150px; color: #3f3f46; }
 .empty-state i { font-size: 60px; margin-bottom: 25px; opacity: 0.1; }
