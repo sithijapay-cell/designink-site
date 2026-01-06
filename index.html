@@ -1,4 +1,124 @@
-// Add this in your <script> block
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignInk | Market Intelligence Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B0F1A; color: #FFFFFF; }
+        .bento-card { background: #161B28; border: 1px solid #2D3343; border-radius: 24px; transition: 0.3s; }
+        .bento-card:hover { border-color: #3B82F6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
+        .gradient-text { background: linear-gradient(90deg, #3B82F6, #60A5FA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .neon-border { border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+    </style>
+</head>
+<body>
+
+    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold italic">DI</div>
+            <span class="font-bold text-xl tracking-tight uppercase">DesignInk<span class="text-blue-500">.ink</span></span>
+        </div>
+        <div class="hidden md:flex gap-10 text-sm font-semibold opacity-70">
+            <a href="#research" class="hover:opacity-100">Market Research</a>
+            <a href="#extensions" class="hover:opacity-100">Extensions</a>
+            <a href="#about" class="hover:opacity-100">About</a>
+        </div>
+        <button class="bg-white text-black px-6 py-2 rounded-full font-bold text-sm">Open Hub</button>
+    </nav>
+
+    <header class="py-20 text-center max-w-4xl mx-auto px-6">
+        <span class="px-4 py-2 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest border border-blue-500/20">Research Tool v2.0</span>
+        <h1 class="text-5xl md:text-7xl font-extrabold mt-6 mb-6 leading-tight">Identify <span class="gradient-text">Gaps.</span> Build the <span class="gradient-text">Future.</span></h1>
+        <p class="text-slate-400 text-lg">The first intelligence platform built specifically for Adobe Stock contributors to find high-profit, low-competition niches.</p>
+    </header>
+
+    <main id="research" class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-6 pb-32">
+        
+        <div class="md:col-span-3 bento-card p-6 flex flex-col gap-6">
+            <h3 class="font-bold text-lg border-b border-slate-700 pb-4">Market Filters</h3>
+            <div>
+                <label class="text-xs text-slate-500 uppercase font-bold block mb-2">Category</label>
+                <select class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-blue-500">
+                    <option>AI & Technology</option>
+                    <option>Sustainability</option>
+                    <option>Lifestyle 2026</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs text-slate-500 uppercase font-bold block mb-2">Minimum Opportunity</label>
+                <input type="range" class="w-full accent-blue-500" min="0" max="100" value="75">
+            </div>
+            <button class="w-full bg-blue-600 py-3 rounded-xl font-bold mt-auto hover:bg-blue-500">Refresh Data</button>
+        </div>
+
+        <div class="md:col-span-6 bento-card p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="font-bold text-xl uppercase tracking-tighter">Supply vs Demand Analytics</h3>
+                <span class="text-xs text-green-400"><i class="fas fa-circle text-[8px] mr-1"></i> Live Data Feed</span>
+            </div>
+            <canvas id="marketChart" height="200"></canvas>
+        </div>
+
+        <div class="md:col-span-3 flex flex-col gap-6">
+            <div class="bento-card p-6 neon-border">
+                <p class="text-xs text-slate-500 font-bold uppercase">Top Opportunity</p>
+                <h4 class="text-2xl font-bold mt-2">Holographic UI</h4>
+                <div class="mt-4 flex items-end gap-2">
+                    <span class="text-4xl font-extrabold text-blue-500">98</span>
+                    <span class="text-sm text-slate-500 mb-1">/100 Score</span>
+                </div>
+            </div>
+            <div class="bento-card p-6">
+                <p class="text-xs text-slate-500 font-bold uppercase">Market Saturation</p>
+                <h4 class="text-2xl font-bold mt-2 text-red-400 font-mono">CRITICAL</h4>
+                <p class="text-xs text-slate-500 mt-2">Niche: "General Nature Photos"</p>
+            </div>
+        </div>
+
+        <div class="md:col-span-12 bento-card overflow-hidden">
+            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="font-bold uppercase tracking-widest text-sm">High-Value Niche Recommendations</h3>
+                <button class="text-sm text-blue-500 font-bold"><i class="fas fa-download mr-2"></i>Export to Whisker CSV</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-800/50 text-slate-500 text-xs uppercase">
+                        <tr>
+                            <th class="p-4">Keyword Set</th>
+                            <th class="p-4 text-center">Trend %</th>
+                            <th class="p-4">Suggested Prompt Style</th>
+                            <th class="p-4">Competition Level</th>
+                            <th class="p-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30">
+                            <td class="p-4 font-bold">Quantum Computing Racks</td>
+                            <td class="p-4 text-center text-green-400 font-mono">+340%</td>
+                            <td class="p-4 text-slate-400 font-mono italic">Hyper-realistic, Blue lighting</td>
+                            <td class="p-4"><span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[10px] font-bold">LOW</span></td>
+                            <td class="p-4 text-right"><button class="text-blue-500 font-bold">Build Set</button></td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-slate-800/30">
+                            <td class="p-4 font-bold">Vertical Urban Gardening</td>
+                            <td class="p-4 text-center text-green-400 font-mono">+120%</td>
+                            <td class="p-4 text-slate-400 font-mono italic">Daylight, 8k, Drone View</td>
+                            <td class="p-4"><span class="px-3 py-1 bg-yellow-500/10 text-yellow-500 rounded-full text-[10px] font-bold">MED</span></td>
+                            <td class="p-4 text-right"><button class="text-blue-500 font-bold">Build Set</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        block
 async function fetchMarketData() {
     const res = await fetch('./data.json');
     const data = await res.json();
@@ -17,3 +137,35 @@ async function fetchMarketData() {
     });
 }
 window.onload = fetchMarketData;
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Buyer Demand',
+                    data: [30, 45, 60, 90, 85, 100],
+                    borderColor: '#3B82F6',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }, {
+                    label: 'Available Files',
+                    data: [80, 82, 85, 84, 86, 88],
+                    borderColor: '#64748b',
+                    borderDash: [5, 5],
+                    tension: 0.4
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { display: false },
+                    x: { grid: { display: false }, ticks: { color: '#64748b' } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
