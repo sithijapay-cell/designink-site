@@ -3,125 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DesignInk | AI Market Intelligence & Automation</title>
+    <title>DesignInk | AI Market Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        :root { --bg-deep: #0B0F1A; --card-bg: #161B28; --accent: #3B82F6; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-deep); color: #FFFFFF; }
-        .bento-card { background: var(--card-bg); border: 1px solid #2D3343; border-radius: 24px; padding: 1.5rem; transition: 0.3s; }
-        .bento-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        :root { --bg: #0B0F1A; --card: #161B28; --accent: #3B82F6; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #FFFFFF; scroll-behavior: smooth; }
+        .bento-card { background: var(--card); border: 1px solid #2D3343; border-radius: 24px; transition: 0.3s ease; }
+        .bento-card:hover { border-color: var(--accent); box-shadow: 0 0 25px rgba(59, 130, 246, 0.1); }
+        .glass-nav { background: rgba(22, 27, 40, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         .gradient-text { background: linear-gradient(90deg, #3B82F6, #93C5FD); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="fixed w-full z-50 bg-[#161B28]/80 backdrop-blur-md px-6 py-4 border-b border-white/5">
+    <nav class="fixed w-full z-50 glass-nav px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold italic">DI</div>
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold italic shadow-lg shadow-blue-500/20">DI</div>
                 <span class="font-extrabold text-xl tracking-tighter uppercase">DesignInk<span class="text-blue-500">.ink</span></span>
             </div>
-            <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-400">
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-400">
                 <a href="#research" class="hover:text-white transition">Research</a>
                 <a href="#extensions" class="hover:text-white transition">Extensions</a>
                 <a href="#tutorial" class="hover:text-white transition">Tutorial</a>
             </div>
-            <a href="https://wa.me/94757530345" target="_blank" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition">Contact via WhatsApp</a>
+            <a href="https://wa.me/94757530345" target="_blank" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition flex items-center gap-2">
+                <i class="fab fa-whatsapp"></i> Buy Now
+            </a>
         </div>
     </nav>
 
-    <header class="pt-40 pb-16 px-6 text-center">
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">Design <span class="gradient-text">Intelligence.</span></h1>
-        <p class="text-slate-400 text-lg max-w-2xl mx-auto">Automated tools built specifically for Adobe Stock contributors to find high-profit niches and automate generation.</p>
+    <header class="pt-44 pb-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-6 leading-[0.9]">
+                Find the <span class="gradient-text">Gaps.</span><br>Automate <span class="gradient-text">Sales.</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl mt-8 max-w-2xl mx-auto">
+                AI-powered market intelligence for Adobe Stock contributors. Identify trending niches every hour and generate content instantly.
+            </p>
+        </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 pb-32 space-y-24">
-        
-        <section id="research" class="space-y-6">
-            <h2 class="text-3xl font-bold uppercase tracking-tighter">Market Intelligence</h2>
-            <div class="bento-card overflow-hidden">
-                <div id="data-table-container" class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="text-slate-500 uppercase text-[10px] border-b border-slate-800">
-                            <tr><th class="p-4">Niche</th><th class="p-4">Supply</th><th class="p-4">Opportunity Score</th></tr>
+    <main class="max-w-7xl mx-auto px-6 pb-32 space-y-8">
+
+        <div id="research" class="bento-card p-8 border-blue-500/30 bg-blue-500/5">
+            <h3 class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-4">Manual AI Analyst</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" id="manualInput" placeholder="Enter keyword (e.g. 'Cyberpunk Street Food')..." 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-blue-500">
+                </div>
+                <button onclick="analyzeKeyword()" class="bg-blue-600 hover:bg-blue-500 px-10 py-4 rounded-xl font-bold transition">Analyze with Gemini</button>
+            </div>
+            <div id="manualResult" class="mt-6 hidden p-6 bg-slate-900/50 rounded-xl border border-slate-700 animate-in fade-in slide-in-from-top-4">
+                <div class="flex justify-between items-start">
+                    <div id="resultContent"></div>
+                    <div id="resultScore" class="text-5xl font-black text-blue-500"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-8">
+            <div class="col-span-12 lg:col-span-8 bento-card overflow-hidden">
+                <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+                    <h3 class="font-bold text-sm uppercase tracking-widest">Live Research Stream (24h)</h3>
+                    <span class="text-[10px] text-green-500 animate-pulse font-mono">● AUTO-UPDATING HOURLY</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="text-slate-500 text-[10px] uppercase font-bold border-b border-slate-800">
+                            <tr>
+                                <th class="p-5">Trending Niche</th>
+                                <th class="p-5 text-center">Supply</th>
+                                <th class="p-5 text-right">Opp. Score</th>
+                            </tr>
                         </thead>
-                        <tbody id="data-table-body">
-                            </tbody>
+                        <tbody id="autoTableBody" class="text-sm">
+                            <tr class="animate-pulse"><td colspan="3" class="p-10 text-center text-slate-600">Syncing with AI...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
-        </section>
 
-        <section id="extensions" class="space-y-8">
-            <h2 class="text-3xl font-bold uppercase tracking-tighter">The Automation Suite</h2>
+            <div class="col-span-12 lg:col-span-4 bento-card flex flex-col justify-center text-center p-10 bg-gradient-to-br from-blue-600/10 to-transparent">
+                <p class="text-[10px] font-bold text-blue-400 uppercase mb-2">Market Leader</p>
+                <h4 id="topKeyword" class="text-3xl font-black mb-4 uppercase tracking-tighter">--</h4>
+                <div id="topScore" class="text-8xl font-black text-white opacity-20">00</div>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed">This niche currently has the highest demand-to-supply ratio on Adobe Stock.</p>
+            </div>
+        </div>
+
+        <div id="extensions" class="pt-20 space-y-8">
+            <h2 class="text-4xl font-extrabold text-center uppercase tracking-tighter">The DesignInk Engine</h2>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bento-card space-y-6">
+                <div class="bento-card p-10 space-y-6">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-cat"></i></div>
-                        <h3 class="text-2xl font-bold">DesignInk Whisker</h3>
+                        <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-blue-500/20"><i class="fas fa-cat"></i></div>
+                        <h3 class="text-3xl font-bold italic">Whisker</h3>
                     </div>
-                    <p class="text-slate-400 leading-relaxed">DesignInk Whisker is a powerful Chrome Extension designed for bulk image generation. It takes a CSV of prompts and automatically submits them to Whisk one by one, allowing for hands-free production of high-quality assets.</p>
-                    <div class="aspect-video rounded-xl overflow-hidden border border-slate-700">
+                    <p class="text-slate-400">Automate image generation for Adobe Stock. Simply drop a CSV file, and Whisker generates assets 1-by-1 directly in your browser.</p>
+                    <div class="aspect-video rounded-2xl overflow-hidden border border-slate-700 bg-black">
                         <iframe class="w-full h-full" src="https://www.youtube.com/embed/sP5TqvLuCwA" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <a href="https://wa.me/94757530345?text=I'm%20interested%20in%20DesignInk%20Whisker" class="block w-full text-center bg-blue-600 py-4 rounded-xl font-bold hover:bg-blue-500 transition">Buy Now via WhatsApp</a>
+                    <a href="https://wa.me/94757530345?text=I'm%20interested%20in%20Whisker%20Tool" class="block w-full py-4 bg-blue-600 rounded-xl text-center font-bold hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Buy via WhatsApp - 1500 LKR</a>
                 </div>
 
-                <div class="bento-card space-y-6">
+                <div class="bento-card p-10 space-y-6">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-brain"></i></div>
-                        <h3 class="text-2xl font-bold">Prompt Builder Pro</h3>
+                        <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-purple-500/20"><i class="fas fa-brain"></i></div>
+                        <h3 class="text-3xl font-bold italic">Prompt Builder Pro</h3>
                     </div>
-                    <p class="text-slate-400 leading-relaxed">The Groq Prompt Builder Pro helps you build complex, consistent prompt sets as structured CSVs. It utilizes lightning-fast AI to generate hundreds of variations, ready for use in any bulk-generation workflow.</p>
-                    <div class="aspect-video rounded-xl overflow-hidden border border-slate-700">
+                    <p class="text-slate-400">Master consistent prompts. Build massive, structured CSV datasets with lightning-fast AI to scale your portfolio production.</p>
+                    <div class="aspect-video rounded-2xl overflow-hidden border border-slate-700 bg-black">
                         <iframe class="w-full h-full" src="https://www.youtube.com/embed/k5JnOnPXTJM" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <a href="https://wa.me/94757530345?text=I'm%20interested%20in%20Prompt%20Builder%20Pro" class="block w-full text-center bg-purple-600 py-4 rounded-xl font-bold hover:bg-purple-500 transition">Buy Now via WhatsApp</a>
+                    <a href="https://wa.me/94757530345?text=I'm%20interested%20in%20Prompt%20Builder%20Pro" class="block w-full py-4 bg-purple-600 rounded-xl text-center font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20">Buy via WhatsApp - 1500 LKR</a>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="tutorial" class="bento-card bg-blue-900/10 border-blue-500/30 space-y-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold">Complete Automation Masterclass</h2>
-                <p class="text-slate-400 mt-2">Watch the full workflow: From AI generation to Adobe Stock submission.</p>
+        <div id="tutorial" class="pt-20">
+            <div class="bento-card p-12 bg-gradient-to-t from-blue-900/20 to-transparent border-blue-500/20 text-center space-y-8">
+                <h2 class="text-4xl font-extrabold uppercase italic tracking-tighter">Complete Automation Tutorial</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto italic">Learn the full A-to-Z workflow: research, build, generate, and upload to Adobe Stock using our AI tools.</p>
+                <div class="max-w-4xl mx-auto aspect-video rounded-3xl overflow-hidden border-4 border-slate-800 shadow-2xl">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/lXOCrM_2zLQ" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
-            <div class="max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/lXOCrM_2zLQ" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="text-center">
-                <p class="text-sm text-slate-500">Learn how to use AI tools to automate your entire stock contributor business.</p>
-            </div>
-        </section>
+        </div>
 
     </main>
 
-    <footer class="py-12 border-t border-white/5 text-center text-slate-600 text-sm">
-        <p>© 2026 DesignInk.ink — Built for the Next Era of Stock Contributors.</p>
+    <footer class="py-20 border-t border-slate-800 text-center text-slate-600 text-sm italic">
+        <p>© 2026 DESIGNINK.INK — Empowering Adobe Stock Contributors</p>
     </footer>
 
     <script>
-        async function fetchMarketData() {
+        // FETCH AUTOMATED TRENDS
+        async function loadTrends() {
             try {
                 const res = await fetch('./data.json');
                 const data = await res.json();
-                const tableBody = document.getElementById('data-table-body');
-                tableBody.innerHTML = '';
-                data.sort((a,b) => b.score - a.score).forEach(item => {
-                    tableBody.innerHTML += `
-                        <tr class="border-b border-slate-800/50 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold text-white uppercase tracking-tighter">${item.keyword}</td>
-                            <td class="p-4 text-blue-400 font-mono">${item.supply.toLocaleString()} files</td>
-                            <td class="p-4 text-right font-black text-blue-500 text-lg">${item.score}</td>
+                const table = document.getElementById('autoTableBody');
+                
+                // Set Top Highlight
+                const top = data.sort((a,b) => b.score - a.score)[0];
+                document.getElementById('topKeyword').innerText = top.keyword;
+                document.getElementById('topScore').innerText = top.score;
+
+                table.innerHTML = '';
+                data.forEach(item => {
+                    table.innerHTML += `
+                        <tr class="border-b border-slate-800/50 hover:bg-white/5 transition group">
+                            <td class="p-5 font-bold text-white group-hover:text-blue-400 transition tracking-tight">${item.keyword}</td>
+                            <td class="p-5 text-center text-slate-500 font-mono text-xs">${item.supply.toLocaleString()} Results</td>
+                            <td class="p-5 text-right font-black text-blue-500 text-xl tracking-tighter">${item.score}</td>
                         </tr>
                     `;
                 });
-            } catch (e) { console.log("Data sync pending..."); }
+            } catch (e) { console.log("Init sync..."); }
         }
-        window.onload = fetchMarketData;
+
+        // MANUAL AI SEARCH (Mockup Logic for UI)
+        function analyzeKeyword() {
+            const input = document.getElementById('manualInput').value;
+            const resDiv = document.getElementById('manualResult');
+            const content = document.getElementById('resultContent');
+            const score = document.getElementById('resultScore');
+
+            if(!input) return;
+            
+            resDiv.classList.remove('hidden');
+            content.innerHTML = `<p class="text-slate-500 italic">Gemini is analyzing market data for "${input}"...</p>`;
+            score.innerText = "--";
+
+            setTimeout(() => {
+                content.innerHTML = `
+                    <h4 class="text-xl font-bold text-white mb-2 uppercase">${input}</h4>
+                    <p class="text-sm text-slate-400">High demand in 2026 creative markets. Recommended Style: <strong>Cinematic 3D Render</strong>.</p>
+                    <a href="https://wa.me/94757530345?text=Help%20me%20generate%20${input}" class="mt-4 inline-block text-xs font-bold text-blue-400 underline">Generate this with DesignInk tools &rarr;</a>
+                `;
+                score.innerText = Math.floor(Math.random() * (99 - 70) + 70);
+            }, 1500);
+        }
+
+        window.onload = loadTrends;
     </script>
 </body>
 </html>
