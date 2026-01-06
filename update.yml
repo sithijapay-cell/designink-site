@@ -1,0 +1,23 @@
+name: Hourly AI Market Update
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+      - name: Install Dependencies
+        run: pip install requests beautifulsoup4 google-generativeai
+      - name: Auto-Update Trends
+        run: python update_trends.py
+      - name: Push to Site
+        run: |
+          git config --local user.name "DesignInk-Bot"
+          git add data.json keywords.txt
+          git commit -m "Hourly Sync" || exit 0
+          git push
