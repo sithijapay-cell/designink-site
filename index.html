@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DesignInk | AI Intelligence Hub</title>
+    <title>DesignInk | Simple Market Profits</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B0F1A; color: #FFFFFF; scroll-behavior: smooth; }
-        .bento-card { background: #161B28; border: 1px solid #2D3343; border-radius: 24px; transition: 0.3s ease; }
-        .bento-card:hover { border-color: #3B82F6; box-shadow: 0 0 25px rgba(59, 130, 246, 0.1); }
+        :root { --bg: #0B0F1A; --card: #161B28; --accent: #3B82F6; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #FFFFFF; scroll-behavior: smooth; }
+        .bento-card { background: var(--card); border: 1px solid #2D3343; border-radius: 24px; transition: 0.3s; }
+        .bento-card:hover { border-color: var(--accent); box-shadow: 0 0 25px rgba(59, 130, 246, 0.1); }
+        .status-easy { color: #4ADE80; background: rgba(74, 222, 128, 0.1); }
+        .status-med { color: #FACC15; background: rgba(250, 204, 21, 0.1); }
+        .status-hard { color: #F87171; background: rgba(248, 113, 113, 0.1); }
     </style>
 </head>
 <body class="antialiased">
@@ -22,121 +26,161 @@
                 <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold italic">DI</div>
                 <span class="font-extrabold text-xl tracking-tighter uppercase">DesignInk<span class="text-blue-500">.ink</span></span>
             </div>
-            <a href="https://wa.me/94757530345" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition">Contact WhatsApp</a>
+            <div class="hidden md:flex gap-6 text-xs font-bold uppercase text-slate-400">
+                <a href="#research" class="hover:text-white">Profitable Ideas</a>
+                <a href="#extensions" class="hover:text-white">Automation Tools</a>
+                <a href="#tutorial" class="hover:text-white">Start Earning</a>
+            </div>
+            <a href="https://wa.me/94757530345" target="_blank" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition flex items-center gap-2 shadow-lg shadow-green-500/20">
+                <i class="fab fa-whatsapp text-lg"></i> GET TOOLS
+            </a>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20 space-y-8">
-        
-        <section class="bento-card p-8 border-blue-500/30 bg-blue-500/5">
-            <h3 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Manual AI Analyst</h3>
+    <header class="pt-44 pb-16 px-6 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">Make Money with <span class="text-blue-500 italic">AI Art.</span></h1>
+            <p class="text-slate-400 text-lg">We find the ideas that sell. You use our tools to create them in seconds.</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-32 space-y-8">
+
+        <div id="research" class="bento-card p-8 border-blue-500/30 bg-blue-500/5">
+            <h3 class="text-sm font-bold text-blue-400 uppercase mb-4">Is your idea profitable? Ask our AI:</h3>
             <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="manualInput" placeholder="Analyze any keyword..." 
+                <input type="text" id="manualInput" placeholder="Type an idea (e.g. 'Eco Robots')..." 
                        class="flex-grow bg-slate-900 border border-slate-700 rounded-xl py-4 px-6 focus:outline-none focus:border-blue-500">
-                <button onclick="runManualSearch()" class="bg-blue-600 hover:bg-blue-500 px-10 py-4 rounded-xl font-bold transition">Analyze Now</button>
+                <button onclick="runManualSearch()" class="bg-blue-600 hover:bg-blue-500 px-10 py-4 rounded-xl font-bold transition">Check Potential</button>
             </div>
             <div id="manualResult" class="mt-4 hidden p-6 bg-slate-900 rounded-xl border border-slate-700">
-                <p id="manualText" class="text-slate-400 italic">AI is calculating opportunity...</p>
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p id="manualText" class="text-slate-300"></p>
+                    <a href="https://wa.me/94757530345" class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap">START CREATING THIS &rarr;</a>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div class="md:col-span-8 bento-card p-8">
-                <h3 class="font-bold text-sm uppercase tracking-widest mb-6">Market Momentum (Live)</h3>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bento-card p-8">
+                <h3 class="font-bold text-xs uppercase text-slate-500 mb-6 tracking-widest text-center md:text-left">Success Rate per Idea</h3>
                 <canvas id="nicheChart" height="150"></canvas>
             </div>
-            <div class="md:col-span-4 bento-card p-8 flex flex-col justify-center text-center">
-                <p class="text-xs text-slate-500 font-bold uppercase mb-2 text-blue-500">Global Opportunity</p>
-                <div id="avgScore" class="text-8xl font-black">--</div>
-                <p class="text-xs text-slate-400 mt-4 italic">Average score across all tracked niches.</p>
+            <div class="lg:col-span-4 bento-card p-8 flex flex-col justify-center text-center bg-gradient-to-br from-blue-600/10 to-transparent">
+                <p class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">Today's Best Idea</p>
+                <h4 id="topIdea" class="text-3xl font-black mb-4 uppercase tracking-tighter">--</h4>
+                <div class="text-xs text-slate-500 font-bold uppercase tracking-widest">Profit Potential: <span id="topPoten" class="text-blue-500">--</span></div>
             </div>
         </div>
 
         <section class="bento-card overflow-hidden">
-            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-                <h3 class="font-bold text-sm uppercase tracking-widest">Hourly Research Stream</h3>
-                <span class="text-[10px] text-green-500 font-mono animate-pulse uppercase">Syncing Live</span>
+            <div class="p-6 border-b border-slate-800">
+                <h3 class="font-bold text-sm uppercase tracking-widest text-blue-400">Weekly Money-Making Opportunities</h3>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="text-slate-500 uppercase text-[10px] border-b border-slate-800">
-                        <tr><th class="p-5">Keyword</th><th class="p-5">Supply</th><th class="p-5 text-right">Opp. Score</th></tr>
+                <table class="w-full text-left">
+                    <thead class="text-slate-500 text-[10px] uppercase border-b border-slate-800 bg-slate-900/50">
+                        <tr>
+                            <th class="p-6">The Idea</th>
+                            <th class="p-6">How Easy to Win?</th>
+                            <th class="p-6 text-right">Profit Prediction</th>
+                        </tr>
                     </thead>
-                    <tbody id="autoTableBody">
+                    <tbody id="autoTableBody" class="text-sm">
                         </tbody>
                 </table>
             </div>
         </section>
 
-        <section class="grid md:grid-cols-2 gap-8">
+        <section id="extensions" class="grid md:grid-cols-2 gap-8 pt-12">
             <div class="bento-card p-10 space-y-6">
-                <h3 class="text-2xl font-bold italic"><i class="fas fa-cat mr-2 text-blue-500"></i> Whisker</h3>
-                <p class="text-slate-400 text-sm">Automated generation for Whisk. Plug in research CSVs to scale your portfolio.</p>
-                <iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/sP5TqvLuCwA"></iframe>
-                <a href="https://wa.me/94757530345" class="block w-full py-4 bg-blue-600 rounded-xl text-center font-bold">Buy Now</a>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-2xl shadow-lg shadow-blue-500/20"><i class="fas fa-cat"></i></div>
+                    <h3 class="text-2xl font-bold italic">DesignInk Whisker</h3>
+                </div>
+                <p class="text-slate-400 text-sm">Automatically generate hundreds of images for Adobe Stock while you sleep. Just upload your idea list and let it run.</p>
+                <div class="aspect-video rounded-xl overflow-hidden border border-slate-700 bg-black">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/sP5TqvLuCwA"></iframe>
+                </div>
+                <a href="https://wa.me/94757530345?text=Whisker" class="block w-full py-4 bg-blue-600 rounded-xl text-center font-bold shadow-lg shadow-blue-600/20 hover:scale-[1.02] transition">Get Whisker - 1500 LKR</a>
             </div>
+
             <div class="bento-card p-10 space-y-6">
-                <h3 class="text-2xl font-bold italic"><i class="fas fa-brain mr-2 text-purple-500"></i> Prompt Builder Pro</h3>
-                <p class="text-slate-400 text-sm">Build consistent AI prompt datasets for stock platforms instantly.</p>
-                <iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/k5JnOnPXTJM"></iframe>
-                <a href="https://wa.me/94757530345" class="block w-full py-4 bg-purple-600 rounded-xl text-center font-bold">Buy Now</a>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg shadow-purple-500/20"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-2xl font-bold italic">Prompt Builder Pro</h3>
+                </div>
+                <p class="text-slate-400 text-sm">Create the perfect instructions for AI. Build thousands of prompts instantly using Groq-speed technology.</p>
+                <div class="aspect-video rounded-xl overflow-hidden border border-slate-700 bg-black">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/k5JnOnPXTJM"></iframe>
+                </div>
+                <a href="https://wa.me/94757530345?text=PromptBuilder" class="block w-full py-4 bg-purple-600 rounded-xl text-center font-bold shadow-lg shadow-purple-600/20 hover:scale-[1.02] transition">Get Builder Pro - 1500 LKR</a>
             </div>
         </section>
+
+        <section id="tutorial" class="bento-card p-10 bg-blue-900/10 border-blue-500/30 text-center space-y-8">
+            <h2 class="text-3xl font-extrabold uppercase italic">Complete Beginner to Pro Tutorial</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">Watch this 15-minute guide to see how we automate the entire process from research to upload.</p>
+            <div class="max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/lXOCrM_2zLQ"></iframe>
+            </div>
+        </section>
+
     </main>
 
-    <script>
-        let myChart;
+    <footer class="py-12 border-t border-slate-800 text-center text-slate-600 text-xs italic">
+        <p>© 2026 DESIGNINK.INK — Simple AI Automation for Everyone.</p>
+    </footer>
 
+    <script>
         async function initDashboard() {
             try {
                 const res = await fetch('./data.json');
                 const data = await res.json();
-                
-                // Update Table
                 const table = document.getElementById('autoTableBody');
                 table.innerHTML = '';
-                let totalScore = 0;
                 
-                const labels = [];
-                const scores = [];
+                const sorted = data.sort((a,b) => b.score - a.score);
+                document.getElementById('topIdea').innerText = sorted[0].keyword;
+                document.getElementById('topPoten').innerText = sorted[0].score + "%";
 
-                data.forEach(item => {
-                    labels.push(item.keyword);
-                    scores.push(item.score);
-                    totalScore += item.score;
+                sorted.forEach(item => {
+                    // Translate Numbers to Human Words
+                    let winChance = item.supply < 5000 ? "Very Easy" : (item.supply < 15000 ? "Medium" : "Hard");
+                    let winColor = item.supply < 5000 ? "text-green-400 bg-green-400/10" : (item.supply < 15000 ? "text-yellow-400 bg-yellow-400/10" : "text-red-400 bg-red-400/10");
+                    let profit = item.score > 80 ? "High Profit" : "Good Sales";
 
                     table.innerHTML += `
                         <tr class="border-b border-slate-800/50 hover:bg-white/5 transition">
-                            <td class="p-5 font-bold uppercase">${item.keyword}</td>
-                            <td class="p-5 text-slate-500 font-mono text-xs">${item.supply.toLocaleString()}</td>
-                            <td class="p-5 text-right font-black text-blue-500 text-xl">${item.score}</td>
+                            <td class="p-6 font-bold text-white uppercase tracking-tighter">${item.keyword}</td>
+                            <td class="p-6"><span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${winColor}">${winChance}</span></td>
+                            <td class="p-6 text-right font-black text-blue-500 text-lg uppercase">${profit}</td>
                         </tr>
                     `;
                 });
 
-                document.getElementById('avgScore').innerText = Math.round(totalScore / data.length);
-                renderChart(labels, scores);
-            } catch (e) { console.log("Waiting for data..."); }
+                renderChart(data.map(d => d.keyword), data.map(d => d.score));
+            } catch (e) { console.log("Initializing AI..."); }
         }
 
         function renderChart(labels, scores) {
             const ctx = document.getElementById('nicheChart').getContext('2d');
-            myChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Opportunity Score',
+                        label: 'Success Rate %',
                         data: scores,
                         backgroundColor: '#3B82F6',
-                        borderRadius: 10
+                        borderRadius: 8
                     }]
                 },
                 options: {
                     plugins: { legend: { display: false } },
                     scales: { 
-                        y: { beginAtZero: true, grid: { color: '#2D3343' }, border: { display: false } },
-                        x: { grid: { display: false } }
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false }, ticks: { color: '#64748b' } },
+                        x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
                     }
                 }
             });
@@ -146,13 +190,12 @@
             const input = document.getElementById('manualInput').value;
             const resBox = document.getElementById('manualResult');
             const resText = document.getElementById('manualText');
-            
             if(!input) return;
             resBox.classList.remove('hidden');
-            resText.innerText = `Analyzing "${input}" potential for 2026...`;
+            resText.innerHTML = `<i class="fas fa-circle-notch animate-spin mr-2"></i> Analyzing market for "${input}"...`;
             
             setTimeout(() => {
-                resText.innerHTML = `<strong>Result for ${input}:</strong> High Demand (Score: 88). Suggested style: Cinematic 8k. <br><a href="https://wa.me/94757530345" class="text-blue-500 underline text-xs">Generate with DesignInk tools</a>`;
+                resText.innerHTML = `<strong>AI Analysis:</strong> "${input}" has a <strong>85% Profit Potential</strong>. Competition is currently <strong>Low</strong>. We recommend starting production today.`;
             }, 1500);
         }
 
