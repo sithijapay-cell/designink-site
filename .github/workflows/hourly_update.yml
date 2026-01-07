@@ -1,7 +1,7 @@
 name: Hourly AI Market Update
 on:
   schedule:
-    - cron: '0 * * * *' # Every hour
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,16 +14,17 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install Dependencies
-        run: pip install requests beautifulsoup4 google-generativeai
+        run: pip install requests beautifulsoup4 groq
       - name: AI Keyword Gen
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python generate_keyword.py
       - name: Update Market Data
         run: python update_trends.py
       - name: Save to Site
         run: |
           git config --local user.name "DesignInk-Bot"
+          git config --local user.email "bot@designink.ink"
           git add data.json keywords.txt
           git commit -m "Hourly AI Market Sync" || exit 0
           git push
