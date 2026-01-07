@@ -21,8 +21,11 @@ def get_stats(keyword):
         return None
 
 def main():
+    if not os.path.exists("keywords.txt"):
+        with open("keywords.txt", "w") as f: f.write("AI Technology")
+
     with open("keywords.txt", "r") as f:
-        keywords = list(set([line.strip() for line in f if line.strip()]))[-15:] # Keep last 15
+        keywords = list(set([line.strip() for line in f if line.strip()]))[-15:]
 
     data = [get_stats(k) for k in keywords if get_stats(k)]
     with open("data.json", "w") as f:
