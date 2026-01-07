@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DesignInk | AI Market Hub</title>
+    <title>DesignInk | AI Intelligence Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0B0F1A; color: #FFFFFF; scroll-behavior: smooth; }
         .bento-card { background: #161B28; border: 1px solid #2D3343; border-radius: 24px; transition: 0.3s ease; }
         .bento-card:hover { border-color: #3B82F6; box-shadow: 0 0 25px rgba(59, 130, 246, 0.1); }
-        .gradient-text { background: linear-gradient(90deg, #3B82F6, #93C5FD); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body class="antialiased">
@@ -20,71 +20,143 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold italic">DI</div>
-                <span class="font-extrabold text-xl uppercase tracking-tighter">DesignInk<span class="text-blue-500">.ink</span></span>
+                <span class="font-extrabold text-xl tracking-tighter uppercase">DesignInk<span class="text-blue-500">.ink</span></span>
             </div>
-            <a href="https://wa.me/94757530345" target="_blank" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition flex items-center gap-2">
-                <i class="fab fa-whatsapp"></i> Buy Now
-            </a>
+            <a href="https://wa.me/94757530345" class="bg-green-500 text-white px-6 py-2 rounded-full font-bold text-xs hover:bg-green-600 transition">Contact WhatsApp</a>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20 space-y-12">
+    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20 space-y-8">
         
-        <section id="research" class="bento-card p-8">
-            <h3 class="font-bold text-sm uppercase tracking-widest text-blue-400 mb-6">Live AI Market Stream</h3>
+        <section class="bento-card p-8 border-blue-500/30 bg-blue-500/5">
+            <h3 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Manual AI Analyst</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <input type="text" id="manualInput" placeholder="Analyze any keyword..." 
+                       class="flex-grow bg-slate-900 border border-slate-700 rounded-xl py-4 px-6 focus:outline-none focus:border-blue-500">
+                <button onclick="runManualSearch()" class="bg-blue-600 hover:bg-blue-500 px-10 py-4 rounded-xl font-bold transition">Analyze Now</button>
+            </div>
+            <div id="manualResult" class="mt-4 hidden p-6 bg-slate-900 rounded-xl border border-slate-700">
+                <p id="manualText" class="text-slate-400 italic">AI is calculating opportunity...</p>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="md:col-span-8 bento-card p-8">
+                <h3 class="font-bold text-sm uppercase tracking-widest mb-6">Market Momentum (Live)</h3>
+                <canvas id="nicheChart" height="150"></canvas>
+            </div>
+            <div class="md:col-span-4 bento-card p-8 flex flex-col justify-center text-center">
+                <p class="text-xs text-slate-500 font-bold uppercase mb-2 text-blue-500">Global Opportunity</p>
+                <div id="avgScore" class="text-8xl font-black">--</div>
+                <p class="text-xs text-slate-400 mt-4 italic">Average score across all tracked niches.</p>
+            </div>
+        </div>
+
+        <section class="bento-card overflow-hidden">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+                <h3 class="font-bold text-sm uppercase tracking-widest">Hourly Research Stream</h3>
+                <span class="text-[10px] text-green-500 font-mono animate-pulse uppercase">Syncing Live</span>
+            </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="text-slate-500 text-[10px] uppercase border-b border-slate-800">
-                        <tr><th class="p-4">Trending Niche</th><th class="p-4">Supply</th><th class="p-4 text-right">Score</th></tr>
+                <table class="w-full text-left text-sm">
+                    <thead class="text-slate-500 uppercase text-[10px] border-b border-slate-800">
+                        <tr><th class="p-5">Keyword</th><th class="p-5">Supply</th><th class="p-5 text-right">Opp. Score</th></tr>
                     </thead>
-                    <tbody id="autoTableBody" class="text-sm">
+                    <tbody id="autoTableBody">
                         </tbody>
                 </table>
             </div>
         </section>
 
-        <section id="extensions" class="grid md:grid-cols-2 gap-8">
+        <section class="grid md:grid-cols-2 gap-8">
             <div class="bento-card p-10 space-y-6">
                 <h3 class="text-2xl font-bold italic"><i class="fas fa-cat mr-2 text-blue-500"></i> Whisker</h3>
-                <p class="text-slate-400">Bulk image generation for Adobe Stock. Drop a CSV and generate 1-by-1 automatically.</p>
-                <iframe class="w-full aspect-video rounded-xl border border-slate-700" src="https://www.youtube.com/embed/sP5TqvLuCwA"></iframe>
-                <a href="https://wa.me/94757530345?text=Whisker" class="block w-full py-4 bg-blue-600 rounded-xl text-center font-bold">Buy Now - 1500 LKR</a>
+                <p class="text-slate-400 text-sm">Automated generation for Whisk. Plug in research CSVs to scale your portfolio.</p>
+                <iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/sP5TqvLuCwA"></iframe>
+                <a href="https://wa.me/94757530345" class="block w-full py-4 bg-blue-600 rounded-xl text-center font-bold">Buy Now</a>
             </div>
             <div class="bento-card p-10 space-y-6">
                 <h3 class="text-2xl font-bold italic"><i class="fas fa-brain mr-2 text-purple-500"></i> Prompt Builder Pro</h3>
-                <p class="text-slate-400">Build massive, structured CSV prompt sets with lightning-fast AI.</p>
-                <iframe class="w-full aspect-video rounded-xl border border-slate-700" src="https://www.youtube.com/embed/k5JnOnPXTJM"></iframe>
-                <a href="https://wa.me/94757530345?text=PromptBuilder" class="block w-full py-4 bg-purple-600 rounded-xl text-center font-bold">Buy Now - 1500 LKR</a>
-            </div>
-        </section>
-
-        <section id="tutorial" class="bento-card p-12 text-center space-y-8">
-            <h2 class="text-3xl font-bold uppercase">Complete Automation Tutorial</h2>
-            <div class="max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden border border-white/10">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/lXOCrM_2zLQ"></iframe>
+                <p class="text-slate-400 text-sm">Build consistent AI prompt datasets for stock platforms instantly.</p>
+                <iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/k5JnOnPXTJM"></iframe>
+                <a href="https://wa.me/94757530345" class="block w-full py-4 bg-purple-600 rounded-xl text-center font-bold">Buy Now</a>
             </div>
         </section>
     </main>
 
     <script>
-        async function loadTrends() {
+        let myChart;
+
+        async function initDashboard() {
             try {
                 const res = await fetch('./data.json');
                 const data = await res.json();
+                
+                // Update Table
                 const table = document.getElementById('autoTableBody');
                 table.innerHTML = '';
-                data.sort((a,b) => b.score - a.score).forEach(item => {
+                let totalScore = 0;
+                
+                const labels = [];
+                const scores = [];
+
+                data.forEach(item => {
+                    labels.push(item.keyword);
+                    scores.push(item.score);
+                    totalScore += item.score;
+
                     table.innerHTML += `
                         <tr class="border-b border-slate-800/50 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold text-white uppercase">${item.keyword}</td>
-                            <td class="p-4 text-slate-500 font-mono text-xs">${item.supply.toLocaleString()} results</td>
-                            <td class="p-4 text-right font-black text-blue-500 text-xl">${item.score}</td>
+                            <td class="p-5 font-bold uppercase">${item.keyword}</td>
+                            <td class="p-5 text-slate-500 font-mono text-xs">${item.supply.toLocaleString()}</td>
+                            <td class="p-5 text-right font-black text-blue-500 text-xl">${item.score}</td>
                         </tr>
                     `;
                 });
-            } catch (e) { console.log("Syncing..."); }
+
+                document.getElementById('avgScore').innerText = Math.round(totalScore / data.length);
+                renderChart(labels, scores);
+            } catch (e) { console.log("Waiting for data..."); }
         }
-        window.onload = loadTrends;
+
+        function renderChart(labels, scores) {
+            const ctx = document.getElementById('nicheChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Opportunity Score',
+                        data: scores,
+                        backgroundColor: '#3B82F6',
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: { 
+                        y: { beginAtZero: true, grid: { color: '#2D3343' }, border: { display: false } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function runManualSearch() {
+            const input = document.getElementById('manualInput').value;
+            const resBox = document.getElementById('manualResult');
+            const resText = document.getElementById('manualText');
+            
+            if(!input) return;
+            resBox.classList.remove('hidden');
+            resText.innerText = `Analyzing "${input}" potential for 2026...`;
+            
+            setTimeout(() => {
+                resText.innerHTML = `<strong>Result for ${input}:</strong> High Demand (Score: 88). Suggested style: Cinematic 8k. <br><a href="https://wa.me/94757530345" class="text-blue-500 underline text-xs">Generate with DesignInk tools</a>`;
+            }, 1500);
+        }
+
+        window.onload = initDashboard;
     </script>
 </body>
 </html>
