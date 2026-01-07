@@ -1,27 +1,28 @@
-import google.generativeai as genai
 import os
+from groq import Groq
 
-# Configure Gemini
-genai.configure(api_key=os.getenv("AIzaSyDXPD2RjYTWZU0OjhGPXA522Cvueux5FKs"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Initialize Groq Client
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 def generate_niche():
-    prompt = """
-    Act as a Microstock Market Expert. Generate ONE specific, high-demand 
-    keyword for Adobe Stock in 2026. Avoid generic terms. 
-    Focus on niches like: Sustainable AI, Future of Work, or 2026 Gen-Z Aesthetics.
-    Return ONLY the keyword text. Example: 'Solar-powered vertical drone delivery'
-    """
     try:
-        response = model.generate_content(prompt)
-        new_keyword = response.text.strip()
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Generate ONE specific, high-demand keyword for Adobe Stock in 2026. Return ONLY the text. Example: 'Solar-powered vertical drone delivery'"
+                }
+            ],
+        )
+        new_keyword = completion.choices[0].message.content.strip()
         
         # Append to keywords.txt
         with open("keywords.txt", "a") as f:
             f.write(f"\n{new_keyword}")
-        print(f"Added AI Niche: {new_keyword}")
+        print(f"Added Groq Niche: {new_keyword}")
     except Exception as e:
-        print(f"AI Error: {e}")
+        print(f"Groq Error: {e}")
 
 if __name__ == "__main__":
     generate_niche()
