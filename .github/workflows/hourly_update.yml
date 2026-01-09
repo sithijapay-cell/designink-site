@@ -1,30 +1,46 @@
 name: Hourly AI Market Update
+
 on:
   schedule:
+    # Runs every hour to keep the Hot List fresh
     - cron: '0 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: # Allows you to run it manually for testing
 
 jobs:
   run-tools:
     runs-on: ubuntu-latest
+    
+    # CRITICAL: This grants the AI permission to save data to your repo
+    permissions:
+      contents: write
+    
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install Dependencies
-        run: pip install requests beautifulsoup4 groq
-      - name: AI Keyword Gen
+
+      - name: Install AI Libraries
+        run: pip install requests groq
+
+      - name: Generate New Trending Niche
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python generate_keyword.py
-      - name: Update Market Data
+
+      - name: Update Worldwide Trends & Hot List
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
         run: python update_trends.py
-      - name: Save to Site
+
+      - name: Save Data to Website
         run: |
           git config --local user.name "DesignInk-Bot"
           git config --local user.email "bot@designink.ink"
           git add data.json keywords.txt
-          git commit -m "Hourly AI Market Sync" || exit 0
+          git commit -m "Automated Market Sync: Updated Trends & Hot List" || exit 0
           git push
