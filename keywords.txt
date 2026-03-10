@@ -1212,3 +1212,4 @@ Metaverse virtual reality workspaces
 Metaverse virtual reality cityscapes
 Metaverse-themed futuristic virtual reality cityscapes
 Metaverse virtual event environments
+'Sustainable metaverse virtual event environments'
